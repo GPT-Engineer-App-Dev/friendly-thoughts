@@ -1,9 +1,18 @@
-import { Container, VStack, Heading, Text, Box, Image, Link } from "@chakra-ui/react";
+import { Container, VStack, Heading, Text, Box, Image, Link, Button } from "@chakra-ui/react";
 import { FaTwitter, FaGithub, FaLinkedin } from "react-icons/fa";
+import { Link as RouterLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Index = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+    setPosts(storedPosts);
+  }, []);
+
   return (
-    <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+    <Container centerContent maxW="container.md" py={10}>
       <VStack spacing={4}>
         <Heading as="h1" size="2xl">Welcome to My Blog</Heading>
         <Image borderRadius="full" boxSize="150px" src="/images/profile.jpg" alt="Profile Image" />
@@ -21,6 +30,15 @@ const Index = () => {
             <FaLinkedin size="24px" />
           </Link>
         </Box>
+        <Button as={RouterLink} to="/add-post" colorScheme="blue">Add New Post</Button>
+        <VStack spacing={4} w="100%">
+          {posts.map((post, index) => (
+            <Box key={index} p={5} shadow="md" borderWidth="1px" w="100%">
+              <Heading fontSize="xl">{post.title}</Heading>
+              <Text mt={4}>{post.content}</Text>
+            </Box>
+          ))}
+        </VStack>
       </VStack>
     </Container>
   );
