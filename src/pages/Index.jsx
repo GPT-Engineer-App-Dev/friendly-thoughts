@@ -1,9 +1,11 @@
-import { Container, VStack, Heading, Text, Box, Image, Link, Button } from "@chakra-ui/react";
+import { Container, VStack, Heading, Text, Box, Image, Link, Button, useColorModeValue } from "@chakra-ui/react";
 import { FaTwitter, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Index = () => {
+  const bgColor = useColorModeValue("gray.100", "gray.900");
+  const color = useColorModeValue("black", "white");
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -12,7 +14,7 @@ const Index = () => {
   }, []);
 
   return (
-    <Container centerContent maxW="container.md" py={10}>
+    <Container centerContent maxW="container.md" py={10} bg={bgColor} color={color}>
       <VStack spacing={4}>
         <Heading as="h1" size="2xl">Welcome to My Blog</Heading>
         <Image borderRadius="full" boxSize="150px" src="/images/profile.jpg" alt="Profile Image" />
