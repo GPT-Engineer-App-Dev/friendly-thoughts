@@ -1,5 +1,5 @@
 import { Container, VStack, Heading, Text, Box, Image, Link, Button, useColorModeValue } from "@chakra-ui/react";
-import { FaTwitter, FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaTwitter, FaGithub, FaLinkedin, FaTrash } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -7,6 +7,12 @@ const Index = () => {
   const bgColor = useColorModeValue("gray.100", "gray.900");
   const color = useColorModeValue("black", "white");
   const [posts, setPosts] = useState([]);
+
+  const handleDelete = (index) => {
+    const updatedPosts = posts.filter((_, i) => i !== index);
+    setPosts(updatedPosts);
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+  };
 
   useEffect(() => {
     const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
@@ -38,6 +44,7 @@ const Index = () => {
             <Box key={index} p={5} shadow="md" borderWidth="1px" w="100%">
               <Heading fontSize="xl">{post.title}</Heading>
               <Text mt={4}>{post.content}</Text>
+              <Button colorScheme="red" onClick={() => handleDelete(index)} leftIcon={<FaTrash />}>Delete</Button>
             </Box>
           ))}
         </VStack>
